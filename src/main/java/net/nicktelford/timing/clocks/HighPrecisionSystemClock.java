@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class HighPrecisionSystemClock
         extends MillisecondPrecisionClock
-        implements Clock {
+        implements HighPrecisionClock {
 
     private AtomicLong lastNanos = new AtomicLong(0);
 
