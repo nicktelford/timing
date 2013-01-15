@@ -17,8 +17,11 @@ import java.util.concurrent.atomic.AtomicLong;
  * of a version 1 UUID.
  */
 public class HighPrecisionSystemClock
-        extends MillisecondPrecisionClock
+        extends NanosecondPrecisionClock
         implements HighPrecisionClock {
+
+    public static final HighPrecisionClock defaultInstance
+            = new HighPrecisionSystemClock();
 
     private AtomicLong lastNanos = new AtomicLong(0);
 
