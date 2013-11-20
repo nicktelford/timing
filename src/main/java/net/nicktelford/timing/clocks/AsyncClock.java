@@ -53,6 +53,7 @@ public class AsyncClock
                           final TimeUnit expiryUnit) {
             this.interval = Math.max(1, intervalUnit.toMillis(interval));
             this.expiry = expiryUnit.toMillis(expiry);
+            setDaemon(true);
         }
 
         /**
