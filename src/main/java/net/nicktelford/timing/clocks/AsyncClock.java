@@ -35,7 +35,8 @@ public class AsyncClock
     class TickThread extends Thread {
 
         private final long expiry;
-        private final long interval;
+        private final long intervalMS;
+        private final int intervalNanos;
 
         /**
          * Creates this {@link TickThread} with the given {@code interval} and
@@ -51,7 +52,9 @@ public class AsyncClock
                           final TimeUnit intervalUnit,
                           final long expiry,
                           final TimeUnit expiryUnit) {
-            this.interval = Math.max(1, intervalUnit.toMillis(interval));
+            this.intervalMS = Math.max(1, intervalUnit.toMillis(interval));
+            this.intervalNanos = (int) Math.min(999999, Math.max(0, 
+                        intervalUnit.toNanos(interval) - (intervalMS * 1000000)));
             this.expiry = expiryUnit.toMillis(expiry);
             setDaemon(true);
         }
@@ -67,7 +70,7 @@ public class AsyncClock
             do {
                 tick();
                 try {
-                    Thread.sleep(interval);
+                    Thread.sleep(intervalMS, intervalNanos);
                 } catch (final java.lang.InterruptedException e) {
                     // tick
                 }
